@@ -1,5 +1,6 @@
 package com.example.softwarebackend.controllers;
 
+import com.example.softwarebackend.dto.UpdateProductInfo;
 import com.example.softwarebackend.models.Product;
 import com.example.softwarebackend.models.User;
 import com.example.softwarebackend.repositories.ProductRepository;
@@ -44,5 +45,42 @@ public class ProductControllers {
             return ResponseEntity.ok().body("Product Created");
         }
         return ResponseEntity.badRequest().body("User not found");
+    }
+
+    @PostMapping(value = "/deleteProduct")
+    public ResponseEntity deleteProduct(@RequestParam Long productId) {
+
+        Optional<Product> product = productRepository.findById(productId);
+
+        if(product.isPresent()) {
+            try {
+                productService.deleteProduct(product.get());
+                return ResponseEntity.ok("Product deleted successfully");
+            } catch (Exception e) {
+                System.out.println("" + e);
+                return ResponseEntity.badRequest().body(e);
+            }
+        } else {
+            return ResponseEntity.badRequest().body("Product doesn't exist");
+        }
+    }
+
+    @PostMapping(value = "/updateProduct")
+    public ResponseEntity updateProduct(@RequestPart UpdateProductInfo updateProductInfo, @RequestParam Long productId) {
+
+        Optional<Product> product = productRepository.findById(productId);
+
+        if (product.isPresent()) {
+            try{
+                productService.updateProduct(updateProductInfo, product.get());
+                return ResponseEntity.ok("Product updated successfully");
+            } catch (Exception e) {
+                System.out.println("" +e);
+                return ResponseEntity.badRequest().body(e);
+            }
+        } else {
+            return ResponseEntity.badRequest().body("Product doesn't exist");
+        }
+
     }
 }

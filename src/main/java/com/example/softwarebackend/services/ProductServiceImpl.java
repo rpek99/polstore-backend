@@ -1,5 +1,6 @@
 package com.example.softwarebackend.services;
 
+import com.example.softwarebackend.dto.UpdateProductInfo;
 import com.example.softwarebackend.models.Product;
 import com.example.softwarebackend.models.User;
 import com.example.softwarebackend.repositories.ProductRepository;
@@ -25,5 +26,18 @@ public class ProductServiceImpl implements ProductService{
         productRepository.save(newProduct);
     }
 
+    public void deleteProduct(Product product) {
+        productRepository.delete(product);
+    }
+
+    public void updateProduct(UpdateProductInfo updateProductInfo, Product product) {
+
+        product.setProductName(updateProductInfo.getProductName());
+        product.setProductDetail(updateProductInfo.getProductDetail());
+        product.setProductPrice(updateProductInfo.getProductPrice());
+        product.setProductImageUrl(updateProductInfo.getProductImageUrl());
+
+        productRepository.save(product);
+    }
 
 }
