@@ -19,7 +19,8 @@ public class UserServiceImpl implements UserService {
         user.setEmail(user.getEmail());
         user.setFirstName(updateUserInformation.getFirstName());
         user.setLastName(updateUserInformation.getLastName());
-        user.setPhoneNumber(updateUserInformation.getPhoneNumber());
+        user.setMobilePrefix(updateUserInformation.getMobilePrefix());
+        user.setMobilePhone(updateUserInformation.getMobilePhone());
 
         userRepository.save(user);
     }
@@ -30,8 +31,9 @@ public class UserServiceImpl implements UserService {
         User newUser = new User();
         newUser.setFirstName(user.getFirstName());
         newUser.setLastName(user.getLastName());
-        newUser.setPhoneNumber(user.getPhoneNumber());
+        newUser.setMobilePhone(user.getMobilePhone());
         newUser.setEmail(user.getEmail());
+        newUser.setMobilePrefix(user.getMobilePrefix());
         newUser.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 
         userRepository.save(newUser);
