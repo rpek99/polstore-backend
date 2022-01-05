@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping(value = "/auth")
 public class AuthenticationController {
@@ -16,7 +16,7 @@ public class AuthenticationController {
     @Autowired
     UserRepository userRepository;
 
-    @RequestMapping(path = "/authentication", method = RequestMethod.POST)
+    @PostMapping(path = "/authentication")
     public ResponseEntity userAuthentication(@RequestBody UserInformation userInformation) {
 
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
