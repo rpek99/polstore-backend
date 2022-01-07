@@ -25,27 +25,27 @@ public class UserController {
     @Autowired
     UserRepository userRepository;
 
-    @PostMapping(value = "/register")
-    public ResponseEntity registerUser(@RequestPart User user) {
-
-        String email = user.getEmail();
-        User userMail = userRepository.findByEmail(email);
-
-        if (userMail != null) {
-            logger.error("Email already exist");
-            return ResponseEntity.badRequest().body("Email already exist");
-        }
-
-        try {
-            userService.createUser(user);
-        } catch (Exception e) {
-            System.out.println("" +e);
-            return ResponseEntity.badRequest().body(e);
-        }
-
-        logger.info("User registered successfully...");
-        return ResponseEntity.ok().body("Complete");
-    }
+//    @PostMapping(value = "/register")
+//    public ResponseEntity registerUser(@RequestPart User user) {
+//
+//        String email = user.getEmail();
+//        User userMail = userRepository.findByEmail(email);
+//
+//        if (userMail != null) {
+//            logger.error("Email already exist");
+//            return ResponseEntity.badRequest().body("Email already exist");
+//        }
+//
+//        try {
+//            userService.createUser(user);
+//        } catch (Exception e) {
+//            System.out.println("" +e);
+//            return ResponseEntity.badRequest().body(e);
+//        }
+//
+//        logger.info("User registered successfully...");
+//        return ResponseEntity.ok().body("Complete");
+//    }
 
     @PostMapping(value = "/updateUser")
     public ResponseEntity updateUser(@RequestBody UpdateUserInformation updateUserInformation) {
