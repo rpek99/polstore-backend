@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
-@CrossOrigin(origins = "http://localhost:3000")
+
 @RestController
 @RequestMapping("users")
 public class UserController {
@@ -25,27 +25,6 @@ public class UserController {
     @Autowired
     UserRepository userRepository;
 
-    @PostMapping(value = "/register")
-    public ResponseEntity registerUser(@RequestPart User user) {
-
-        String email = user.getEmail();
-        User userMail = userRepository.findByEmail(email);
-
-        if (userMail != null) {
-            logger.error("Email already exist");
-            return ResponseEntity.badRequest().body("Email already exist");
-        }
-
-        try {
-            userService.createUser(user);
-        } catch (Exception e) {
-            System.out.println("" +e);
-            return ResponseEntity.badRequest().body(e);
-        }
-
-        logger.info("User registered successfully...");
-        return ResponseEntity.ok().body("Complete");
-    }
 
     @PostMapping(value = "/updateUser")
     public ResponseEntity updateUser(@RequestBody UpdateUserInformation updateUserInformation) {
@@ -62,5 +41,25 @@ public class UserController {
             }
         }
         return ResponseEntity.badRequest().body("User not found");
+    }
+
+    @GetMapping(value = "/getUser")
+    public UpdateUserInformation getUser(@RequestParam Long userId){
+
+        UpdateUserInformation userInformation = new UpdateUserInformation();
+
+        Optional<User> user = userRepository.findById(userId);
+
+        if(user.isPresent()){
+            userInformation.setId(user.get().getId());
+            userInformation.setEmail(user.get().getEmail());
+            userInformation.setFirstName(user.get().getFirstName());
+            userInformation.setLastName(user.get().getLastName());
+            userInformation.setMobilePhone(user.get().getMobilePhone());
+            userInformation.setMobilePrefix(user.get().getMobilePrefix());
+
+           return userInformation;
+        }
+        return null;
     }
 }
