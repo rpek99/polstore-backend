@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -30,9 +31,9 @@ public class ProductControllers {
     ProductService productService;
 
     @PostMapping(value = "/addProduct")
-    public ResponseEntity addProduct(@RequestPart Product product, @RequestParam Long userId) {
+    public ResponseEntity addProduct(@RequestBody Product product) {
 
-        Optional<User> user = userRepository.findById(userId);
+        Optional<User> user = userRepository.findById(product.getUser().getId());
 
         if (user.isPresent()) {
             try {
@@ -65,22 +66,37 @@ public class ProductControllers {
         }
     }
 
-    @PostMapping(value = "/updateProduct")
-    public ResponseEntity updateProduct(@RequestPart UpdateProductInfo updateProductInfo, @RequestParam Long productId) {
-
-        Optional<Product> product = productRepository.findById(productId);
-
-        if (product.isPresent()) {
-            try{
-                productService.updateProduct(updateProductInfo, product.get());
-                return ResponseEntity.ok("Product updated successfully");
-            } catch (Exception e) {
-                System.out.println("" +e);
-                return ResponseEntity.badRequest().body(e);
-            }
+    @GetMapping(value = "/getUserProduct")
+    public List<Product> getUserProducts(@RequestParam Long userId) {
+        List<Product> products = productRepository.findAllByUserId(userId);
+        if (products != null){
+            return products;
         } else {
-            return ResponseEntity.badRequest().body("Product doesn't exist");
+            return null;
         }
-
     }
+
+    @GetMapping(value = "/getAllProducts")
+    public List<Product> getAllProducts() {
+        List<Product> products = productRepository.findAll();
+        return products;
+    }
+
+//    @PostMapping(value = "/updateProduct")
+//    public ResponseEntity updateProduct(@RequestPart UpdateProductInfo updateProductInfo, @RequestParam Long productId) {
+//
+//        Optional<Product> product = productRepository.findById(productId);
+//
+//        if (product.isPresent()) {
+//            try{
+//                productService.updateProduct(updateProductInfo, product.get());
+//                return ResponseEntity.ok("Product updated successfully");
+//            } catch (Exception e) {
+//                System.out.println("" +e);
+//                return ResponseEntity.badRequest().body(e);
+//            }
+//        } else {
+//            return ResponseEntity.badRequest().body("Product doesn't exist");
+//        }
+//    }
 }

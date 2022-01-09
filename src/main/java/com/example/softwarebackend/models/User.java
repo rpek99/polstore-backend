@@ -2,6 +2,7 @@ package com.example.softwarebackend.models;
 
 import lombok.Data;
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data

@@ -13,7 +13,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user; //user_id
 
@@ -28,8 +28,5 @@ public class Product {
 
     @Column(name = "product_price")
     private int productPrice;
-
-    @Column(name = "is_sold", columnDefinition = "boolean default false")
-    private boolean isSold = false;
 
 }
