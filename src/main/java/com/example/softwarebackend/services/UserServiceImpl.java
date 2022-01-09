@@ -16,7 +16,7 @@ public class UserServiceImpl implements UserService {
     UserRepository userRepository;
 
     public void updateUser(UpdateUserInformation updateUserInformation, User user) {
-        user.setEmail(user.getEmail());
+        user.setEmail(updateUserInformation.getEmail());
         user.setFirstName(updateUserInformation.getFirstName());
         user.setLastName(updateUserInformation.getLastName());
         user.setMobilePrefix(updateUserInformation.getMobilePrefix());

@@ -19,6 +19,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+
+import java.util.Arrays;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -57,17 +60,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(true);
-        config.addAllowedOrigin("*");
-        config.addAllowedHeader("*");
-        config.addAllowedMethod("OPTIONS");
-        config.addAllowedMethod("HEAD");
-        config.addAllowedMethod("GET");
-        config.addAllowedMethod("PUT");
-        config.addAllowedMethod("POST");
-        config.addAllowedMethod("DELETE");
-        config.addAllowedMethod("PATCH");
-        source.registerCorsConfiguration("/**", config);
+
+        config.setAllowedOrigins(Arrays.asList("*"));
+        config.setAllowedMethods(Arrays.asList(CorsConfiguration.ALL));
+        config.setAllowedHeaders(Arrays.asList(CorsConfiguration.ALL));
+        source.registerCorsConfiguration("/**", config.applyPermitDefaultValues());
+
         return new CorsFilter(source);
     }
 
@@ -80,12 +78,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(handler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/posts")
-                .permitAll()
-                .antMatchers(HttpMethod.GET, "/comments")
-                .permitAll()
-                .antMatchers("/auth/**")
-                .permitAll()
+                .antMatchers(HttpMethod.POST, "/auth/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/users/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/users/**").permitAll()
                 .anyRequest().authenticated();
 
         httpSecurity.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

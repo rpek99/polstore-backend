@@ -1,5 +1,6 @@
 package com.example.softwarebackend.controllers;
 
+import com.example.softwarebackend.dto.AuthResponse;
 import com.example.softwarebackend.dto.UserRequest;
 import com.example.softwarebackend.models.User;
 import com.example.softwarebackend.repositories.UserRepository;
@@ -14,7 +15,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping(value = "/auth")
 public class AuthenticationController {
@@ -48,7 +48,10 @@ public class AuthenticationController {
                 Authentication auth = authenticationManager.authenticate(authToken);
                 SecurityContextHolder.getContext().setAuthentication(auth);
                 String jwtToken = jwtTokenProvider.generateJwtToken(auth);
-                return ResponseEntity.ok().body("Bearer " +jwtToken);
+                AuthResponse authResponse = new AuthResponse();
+                authResponse.setMessage("Bearer " +jwtToken);
+                authResponse.setUserId(user.getId());
+                return ResponseEntity.ok().body(authResponse);
             }
             return ResponseEntity.badRequest().body("Password is wrong");
         }
@@ -65,20 +68,4 @@ public class AuthenticationController {
         return ResponseEntity.ok().body("User successfully registered");
     }
 
-
-//    @PostMapping(path = "/authentication")
-//    public ResponseEntity userAuthentication(@RequestBody UserRequest userRequest) {
-//
-//        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-//        User user = userRepository.findByEmail(userRequest.getEmail());
-//
-//        if (user != null) {
-//            if (bCryptPasswordEncoder.matches(userRequest.getPassword(), user.getPassword())) {
-//                return ResponseEntity.ok().body("Login successful");
-//            }
-//            return ResponseEntity.badRequest().body("Password is wrong");
-//        }
-//        return ResponseEntity.badRequest().body("There is no any record with this email address");
-//
-//    }
 }
