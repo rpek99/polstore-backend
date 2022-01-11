@@ -82,21 +82,4 @@ public class ProductControllers {
         return products;
     }
 
-//    @PostMapping(value = "/updateProduct")
-//    public ResponseEntity updateProduct(@RequestPart UpdateProductInfo updateProductInfo, @RequestParam Long productId) {
-//
-//        Optional<Product> product = productRepository.findById(productId);
-//
-//        if (product.isPresent()) {
-//            try{
-//                productService.updateProduct(updateProductInfo, product.get());
-//                return ResponseEntity.ok("Product updated successfully");
-//            } catch (Exception e) {
-//                System.out.println("" +e);
-//                return ResponseEntity.badRequest().body(e);
-//            }
-//        } else {
-//            return ResponseEntity.badRequest().body("Product doesn't exist");
-//        }
-//    }
 }

@@ -3,6 +3,8 @@ package com.example.softwarebackend.models;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity
@@ -28,5 +30,8 @@ public class Product {
 
     @Column(name = "product_price")
     private int productPrice;
+
+    @ManyToMany(mappedBy = "products")
+    private Set<UserCart> carts = new HashSet<>();
 
 }
