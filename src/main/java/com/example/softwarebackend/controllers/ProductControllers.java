@@ -30,6 +30,7 @@ public class ProductControllers {
     @Autowired
     ProductService productService;
 
+    //adding product to general system
     @PostMapping(value = "/addProduct")
     public ResponseEntity addProduct(@RequestBody Product product) {
 
@@ -48,6 +49,7 @@ public class ProductControllers {
         return ResponseEntity.badRequest().body("User not found");
     }
 
+    //delete product from general system
     @PostMapping(value = "/deleteProduct")
     public ResponseEntity deleteProduct(@RequestParam Long productId) {
 
@@ -66,6 +68,7 @@ public class ProductControllers {
         }
     }
 
+    //gets all products that user created
     @GetMapping(value = "/getUserProduct")
     public List<Product> getUserProducts(@RequestParam Long userId) {
         List<Product> products = productRepository.findAllByUserId(userId);
@@ -76,6 +79,7 @@ public class ProductControllers {
         }
     }
 
+    //gets all products in the system
     @GetMapping(value = "/getAllProducts")
     public List<Product> getAllProducts() {
         List<Product> products = productRepository.findAll();

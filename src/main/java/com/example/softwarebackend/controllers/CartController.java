@@ -30,6 +30,7 @@ public class CartController {
     ProductRepository productRepository;
 
 
+    //gets all products for specific user id
     @GetMapping("/getCartProducts")
     public Set<Product> getCartProducts(@RequestParam Long userId) {
         Optional<User> user = userRepository.findById(userId);
@@ -41,6 +42,7 @@ public class CartController {
         return null;
     }
 
+    //adding to cart a product
     @PostMapping("/addToCart")
     public ResponseEntity addToCart(@RequestBody ProductToCart productToCart) {
         Optional<User> user = userRepository.findById(productToCart.getUserId());
@@ -60,6 +62,7 @@ public class CartController {
         return ResponseEntity.ok().build();
     }
 
+    //remove product from user cart
     @PostMapping("/removeFromCart")
     public ResponseEntity removeFromCart (@RequestBody ProductToCart productToCart) {
         Optional<User> user = userRepository.findById(productToCart.getUserId());
