@@ -35,6 +35,7 @@ public class AuthenticationController {
     }
 
 
+    //login request
     @PostMapping(path = "/login")
     public ResponseEntity login(@RequestBody UserRequest userRequest) {
 
@@ -58,6 +59,7 @@ public class AuthenticationController {
         return ResponseEntity.badRequest().body("There is no any record with this email address");
     }
 
+    //register request
     @PostMapping(path = "/register")
     public ResponseEntity register(@RequestPart User user) {
         User registeredUser = userRepository.findByEmail(user.getEmail());

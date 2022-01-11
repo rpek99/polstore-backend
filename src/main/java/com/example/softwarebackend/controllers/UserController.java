@@ -25,7 +25,7 @@ public class UserController {
     @Autowired
     UserRepository userRepository;
 
-
+    //updates user informations
     @PostMapping(value = "/updateUser")
     public ResponseEntity updateUser(@RequestBody UpdateUserInformation updateUserInformation) {
 
@@ -43,6 +43,7 @@ public class UserController {
         return ResponseEntity.badRequest().body("User not found");
     }
 
+    //get specific user informations
     @GetMapping(value = "/getUser")
     public UpdateUserInformation getUser(@RequestParam Long userId){
 

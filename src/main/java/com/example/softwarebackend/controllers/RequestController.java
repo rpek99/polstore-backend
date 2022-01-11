@@ -30,6 +30,7 @@ public class RequestController {
     @Autowired
     ProductRepository productRepository;
 
+    //gets all messages for specific user id
     @GetMapping("/getUserMessages")
     public List<UserMail> getUserMessages(@RequestParam Long userId) {
         Optional<User> user = userRepository.findById(userId);
@@ -41,6 +42,7 @@ public class RequestController {
         }
     }
 
+    //creates a message
     @PostMapping("/createMessage")
     public ResponseEntity createMessage(@RequestBody RequestMessage requestMessage) {
         Optional<User> buyer = userRepository.findById(requestMessage.getUserId());
