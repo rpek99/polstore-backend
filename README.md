@@ -1,1 +1,5 @@
-# software_backend
+# polstore-backend
+- Spring boot 
+- Hibernate/Jpa
+- PostgreSQL
+
